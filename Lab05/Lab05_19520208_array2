@@ -1,0 +1,34 @@
+		.data
+array1: 	.word 5, 6, 7, 8, 1, 2, 3, 9, 10, 4 #Mang array1 co 10 phan tu, moi phantu 1 word
+size1: 		.word 10 #Size1 chua kich thuoc array1
+
+array2: 	.byte 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16
+size2: 		.word 16
+
+array3: 	.space 8 #Mang array3 co 8 byte
+size3: 		.word 8#Kich thuoc cua array3
+
+		.text
+		la $a1,array2 #Luu dia chi cua array2 vao $a0
+		la $t0,size2 #Luu dia chi cua size2 vao thanh ghi t0
+		lw $t1,0($t0) #Lay gia tri cua thanh phan chua o t0 len a1
+		
+		addi $t0,$zero,0 #i=0
+LOOP:		sll $t2,$t0,0 #Dich tu phan tu i sang i+1
+		add $a0,$a1,$t2 # a0 chua dia chi cua array2[i]
+		
+		lb $a0,0($a0) #Load gia tri tu dia chi len a0
+		addi $v0,$zero,1 #Them ma in integer
+		syscall
+		
+		addi $a0,$zero,32 #In khoang cach
+		addi $v0,$zero,11
+		syscall
+		
+		addi $t0,$t0,1 #i+=1
+		beq $t1,$t0,Exit #Neu nhu size1 == i thi ngung
+		Jal LOOP
+		
+Exit:
+		
+		
